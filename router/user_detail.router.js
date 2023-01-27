@@ -6,16 +6,17 @@ const userDetailRouter = express.Router()
 
 userDetailRouter.post("/", async (req, res) => {
 
-    const { level, name, score } = req.body
+    const { level, name , score } = req.body
 
     try {
 
-        await userDetailModal.create({ level, name, score })
-
+       const data =  await userDetailModal.create({ level, name  , score})
         res.send({
             message: 'User Detail Successfully added',
+            user_id : data._id,
             status: true
         })
+
 
     } catch (error) {
         console.log(error)
@@ -24,6 +25,24 @@ userDetailRouter.post("/", async (req, res) => {
             status: false
         })
     }
+})
+
+userDetailRouter.patch('/:id' , async(req , res) => {
+    const {score} = req.body
+    const {id } = req.params
+
+    try {
+
+        await userDetailModal.findByIdAndUpdate({_id : id} , {score})
+
+        res.send({
+            message : "Successfully Updated"
+        })
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 userDetailRouter.get("/", async (req, res) => {
