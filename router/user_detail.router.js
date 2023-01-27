@@ -61,4 +61,17 @@ userDetailRouter.get("/", async (req, res) => {
     }
 })
 
+userDetailRouter.get("/:id" , async(req , res) => {
+    const {id} = req.params
+    try {
+        
+        const SingleUserData = await userDetailModal.findOne({_id : id})
+
+        res.send(SingleUserData)
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = { userDetailRouter }
